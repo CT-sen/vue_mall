@@ -3,11 +3,26 @@
     <nav-bar class="home-nav" :bgcolor="'#ff8198'" :fontSize="14"
       ><div slot="center">购物车</div></nav-bar
     >
-
     <home-swiper :banners="banners"></home-swiper>
     <recommend-view :recommends="recommends"></recommend-view>
     <feature></feature>
+    <tab-control
+      :title="['流行', '新款', '精品']"
+      @tabClick="tabClick"
+    ></tab-control>
     <button @click="btn">打印数据</button>
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+      <li>10</li>
+    </ul>
   </div>
 </template>
 <script>
@@ -16,9 +31,10 @@ import HomeSwiper from './homeChildren/HomeSwiper.vue'
 import RecommendView from './homeChildren/RecommendView.vue'
 import NavBar from '@/components/common/navbar/NavBar.vue'
 import Feature from './homeChildren/Feature.vue'
+import TabControl from '@/components/content/tabControl/TabControl.vue'
 export default {
   name: 'Home',
-  components: { HomeSwiper, RecommendView, NavBar, Feature },
+  components: { HomeSwiper, RecommendView, NavBar, Feature, TabControl },
   data() {
     return {
       banners: [],
@@ -49,7 +65,19 @@ export default {
         console.log(res)
       })
     },
-
+    tabClick(index) {
+      switch (index) {
+        case 0:
+          this.currentType = 'pop'
+          break
+        case 1:
+          this.currentType = 'new'
+          break
+        case 2:
+          this.currentType = 'sell'
+          break
+      }
+    },
     btn() {
       console.log(this.recommends)
     }
