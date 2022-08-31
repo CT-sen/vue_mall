@@ -9,6 +9,7 @@
 
 <script>
 import MainTabBar from 'components/content/mainTabbar/MainTabBar.vue'
+
 export default {
   components: { MainTabBar }
 }
