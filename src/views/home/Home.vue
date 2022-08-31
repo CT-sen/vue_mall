@@ -3,32 +3,39 @@
     <nav-bar class="home-nav" :bgcolor="'#ff8198'" :fontSize="14"
       ><div slot="center">购物车</div></nav-bar
     >
-    <home-swiper :banners="banners"></home-swiper>
-    <recommend-view :recommends="recommends"></recommend-view>
-    <feature></feature>
-    <tab-control
-      class="tab-control"
-      :title="['流行', '新款', '精品']"
-      @tabClick="tabClick"
-    />
-    <goods-list :goods="showGoods"></goods-list>
+    <Scroll class="content">
+      <home-swiper :banners="banners"></home-swiper>
+      <recommend-view :recommends="recommends"></recommend-view>
+      <feature></feature>
+      <tab-control
+        class="tab-control"
+        :title="['流行', '新款', '精品']"
+        @tabClick="tabClick"
+      />
+      <goods-list :goods="showGoods"></goods-list>
+    </Scroll>
   </div>
 </template>
 <script>
 import { getHomeMultidata, getHomeGoods } from 'network/home.js'
+
 import HomeSwiper from './homeChildren/HomeSwiper.vue'
 import RecommendView from './homeChildren/RecommendView.vue'
 import Feature from './homeChildren/Feature.vue'
-import NavBar from '@/components/common/navbar/NavBar.vue'
-import TabControl from '@/components/content/tabControl/TabControl.vue'
-import GoodsList from '@/components/content/goods/GoodsList.vue'
+
+import NavBar from 'components/common/navbar/NavBar.vue'
+import Scroll from 'components/common/scroll/Scroll.vue'
+
+import TabControl from 'components/content/tabControl/TabControl.vue'
+import GoodsList from 'components/content/goods/GoodsList.vue'
 export default {
   name: 'Home',
   components: {
     HomeSwiper,
     RecommendView,
-    NavBar,
     Feature,
+    NavBar,
+    Scroll,
     TabControl,
     GoodsList
   },
@@ -67,7 +74,7 @@ export default {
     getHomeGoods(type) {
       const page = this.goods[type].page + 1
       getHomeGoods(type, page).then((res) => {
-        console.log(res.data.list)
+        // console.log(res.data.list)
         this.goods[type].list.push(...res.data.list)
       })
     },
@@ -105,5 +112,14 @@ export default {
   position: sticky;
   top: 44px;
   z-index: 99;
+}
+.content {
+  overflow: hidden;
+
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
 }
 </style>
