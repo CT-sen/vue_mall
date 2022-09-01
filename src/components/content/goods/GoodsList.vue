@@ -1,6 +1,6 @@
 <template>
   <div class="goods-list">
-    <goods-list-item v-for="item in goods" :key="item.iid" :goodsItem="item">
+    <goods-list-item v-for="item in goods" :key="item.id" :goodsItem="item">
       <!-- {{ item.pop }} -->
     </goods-list-item>
   </div>

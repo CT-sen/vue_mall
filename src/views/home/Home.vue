@@ -3,7 +3,14 @@
     <nav-bar class="home-nav" :bgcolor="'#ff8198'" :fontSize="14"
       ><div slot="center">购物车</div></nav-bar
     >
-    <Scroll class="content">
+    <Scroll
+      class="content"
+      ref="scroll"
+      :probe-type="3"
+      @scroll="contentScroll"
+      :pull-up-load="true"
+      @pullingUp="loadMore"
+    >
       <home-swiper :banners="banners"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature></feature>
@@ -14,6 +21,7 @@
       />
       <goods-list :goods="showGoods"></goods-list>
     </Scroll>
+    <back-top @click.native="backClick" v-show="isShowBackTop" />
   </div>
 </template>
 <script>
@@ -28,6 +36,7 @@ import Scroll from 'components/common/scroll/Scroll.vue'
 
 import TabControl from 'components/content/tabControl/TabControl.vue'
 import GoodsList from 'components/content/goods/GoodsList.vue'
+import BackTop from 'components/content/content/backTop/BackTop.vue'
 export default {
   name: 'Home',
   components: {
@@ -37,7 +46,8 @@ export default {
     NavBar,
     Scroll,
     TabControl,
-    GoodsList
+    GoodsList,
+    BackTop
   },
   data() {
     return {
@@ -48,7 +58,8 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      currentType: 'pop'
+      currentType: 'pop',
+      isShowBackTop: false
     }
   },
   computed: {
@@ -76,6 +87,7 @@ export default {
       getHomeGoods(type, page).then((res) => {
         // console.log(res.data.list)
         this.goods[type].list.push(...res.data.list)
+        this.$refs.scroll.finishPullUp()
       })
     },
     tabClick(index) {
@@ -90,6 +102,15 @@ export default {
           this.currentType = 'sell'
           break
       }
+    },
+    loadMore() {
+      this.getHomeGoods(this.currentType)
+    },
+    backClick() {
+      this.$refs.scroll.scrollTo(0, 0)
+    },
+    contentScroll(position) {
+      this.isShowBackTop = -position.y > 1000
     }
   }
 }
