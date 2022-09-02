@@ -1,57 +1,33 @@
 <template>
-  <div>
-    <swiper>
-      <ul class="slide" v-for="(item, id) in banners" :key="id">
-        <li>
-          <a :href="item.link">
-            <img :src="item.image" alt="" @load="imgLoad" />
-          </a>
-        </li>
-      </ul>
-    </swiper>
-  </div>
+  <swiper>
+    <swiper-item v-for="(item, id) in banners" :key="id">
+      <a :href="item.link">
+        <img :src="item.image" alt="">
+      </a>
+    </swiper-item>
+  </swiper>
 </template>
 
 <script>
-import Swiper from '@/components/common/swiper/Swiper.vue'
+  import {Swiper, SwiperItem} from 'components/common/swiper'
 
-export default {
-  name: 'HomeSwiper',
-  data() {
-    return {
-      isLoad: false
-    }
-  },
-  props: {
-    banners: {
-      type: Array,
-      default() {
-        return []
+  export default {
+    name: "HomeSwiper",
+    props: {
+      banners: {
+        type: Array,
+        default() {
+          return []
+        }
       }
-    }
-  },
-  components: {
-    Swiper
-  },
-  methods: {
-    imgLoad() {
-      // console.log('----')
-      if (!this.isLoad) {
-        this.$emit('swiperImageLoad')
-        this.isLoad = true
-      }
+    },
+    components: {
+      Swiper,
+      SwiperItem
     }
   }
-}
 </script>
 
 <style scoped>
-ul {
-  width: 100%;
-  flex-shrink: 0;
-}
 
-ul img {
-  width: 100%;
-}
 </style>

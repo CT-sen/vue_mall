@@ -1,7 +1,7 @@
 <template>
   <div id="home">
-    <nav-bar class="home-nav" :bgcolor="'#ff8198'" :fontSize="14"
-      ><div slot="center">购物车</div></nav-bar
+    <nav-bar class="home-nav" :bgcolor="'#ff8198'"
+      ><div slot="center">蘑菇街</div></nav-bar
     >
     <tab-control
       ref="tabControl1"
@@ -72,7 +72,8 @@ export default {
       currentType: 'pop',
       isShowBackTop: false,
       tabOffsetTop: 0,
-      isTabFixed: false
+      isTabFixed: false,
+      saveY: 0
     }
   },
   computed: {
@@ -94,6 +95,15 @@ export default {
     })
     // console.log(this.$refs.tabControl.$el.offsetTop)
     // this.$refs.tabControl.$el.offsetTop
+  },
+  activated() {
+    this.$refs.scroll.scrollTo(0, this.saveY, 0)
+    // console.log(this.saveY)
+    this.$refs.scroll.refresh()
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.getScrollY()
+    // console.log(this.$refs.scroll.getScrollY())
   },
   methods: {
     getHomeMultidata() {
